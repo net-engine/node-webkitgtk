@@ -393,6 +393,36 @@ libwebkit2gtk-4.0-dev (2.6.x), for node-webkitgtk >= 1.3.0
 libdbus-glib-1-dev
 ```
 
+## MacOSX install notes
+
+You're going to need to run a VM. Install Vagrant to make your life easier.
+Get vagrant installed and then:
+
+```
+~/$ vagrant box add ubuntu-server-vivid https://cloud-images.ubuntu.com/vagrant/vivid/current/vivid-server-cloudimg-amd64-vagrant-disk1.box
+~/$ mkdir ubuntu-server-vivid && cd $_
+~/vagrant-server-vivid/$ vagrant init ubuntu-server-vivid 
+~/vagrant-server-vivid/$ vagrant up && vagrant ssh
+```
+
+Cool, once inside the VM install nvm (includes node and npm), this is very trusting of you, by the way... be warned
+
+```
+~/$ curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
+~/$ source ~/.profile
+~/$ nvm install 0.10.32
+```
+
+*Note* if you try to use a `0.11.*` node version you'll get compile errors.
+
+Also install cups and xvfb
+
+```
+~/$ sudo apt-get install cups xvfb
+```
+
+You're now ready to rock.
+
 License
 -------
 

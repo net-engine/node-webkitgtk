@@ -58,14 +58,14 @@ describe("load method", function suite() {
 		});
 	});
 	it("should 404", function(done) {
-		this.timeout(1000);
+		this.timeout(2000);
 		WebKit().load("http://google.com/sdfsdfsdf", function(err) {
 			expect(err).to.be(404);
 			done();
 		});
 	});
 	it("should allow to load another uri just after", function(done) {
-		this.timeout(5000);
+		this.timeout(7500);
 		WebKit().load('http://google.com').load('http://geoip.edagames.com', function() {
 			this.once('response', function(res) {
 				res.data(function(err, data) {

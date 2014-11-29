@@ -2,5 +2,7 @@ build
 node_modules
 lib/*
 dev/*
-test/shots
-cache
+test/shots/**/*
+!test/shots/.gitkeep
+cache/**/*
+!cache/.gitkeep
