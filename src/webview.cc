@@ -628,7 +628,16 @@ static gboolean find_file_printer(GtkPrinter* printer, char** data) {
 }
 
 static GtkUnit getUnit (gchar* name) {
-	return GTK_UNIT_POINTS;	
+	const gchar* mm = "mm";
+	const gchar* in = "in";
+
+	if (strcmp(name, mm) == 0) {
+		return GTK_UNIT_MM;
+	} else if (strcmp(name, in) == 0) {
+		return GTK_UNIT_INCH;
+	} else {
+		return GTK_UNIT_POINTS;	
+	}
 }
 
 static GtkPaperSize* getPaperSize (Handle<Object> opts) {

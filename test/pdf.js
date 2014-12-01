@@ -19,5 +19,28 @@ describe("pdf method", function suite() {
 			});
 		});
 	});
+
+	it("should allow a custom paper size", function(done) {
+		this.timeout(10000);
+		var pdfpath = __dirname + '/shots/test2.pdf';
+		WebKit().load("https://www.debian.org/", {
+			width:800, height:600,
+		}, function(err) {
+			expect(err).to.not.be.ok();
+		}).wait('load').pdf(pdfpath, {
+				fullpage: true, 
+				paper: {
+					width: 420,
+					height: 597,
+					unit: 'mm'
+				}
+			}, function(err) {
+			expect(err).to.not.be.ok();
+			fs.stat(pdfpath, function(err, stat) {
+				expect(stat.size).to.be.above(90000);
+				done();
+			});
+		});
+	});
 });
 

@@ -11,7 +11,7 @@
 7 verbose unsafe-perm in lifecycle true
 8 info webkitgtk@1.8.5 Failed to exec test script
 9 error webkitgtk@1.8.5 test: `mocha -R spec`
-9 error Exit status 3
+9 error Exit status 6
 10 error Failed at the webkitgtk@1.8.5 test script.
 10 error This is most likely a problem with the webkitgtk package,
 10 error not with npm itself.
