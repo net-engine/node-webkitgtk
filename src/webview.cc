@@ -627,6 +627,36 @@ static gboolean find_file_printer(GtkPrinter* printer, char** data) {
 	return FALSE;
 }
 
+static GtkUnit getUnit (gchar* name) {
+	return GTK_UNIT_POINTS;	
+}
+
+static GtkPaperSize* getPaperSize (Handle<Object> opts) {
+	if (opts->Has(H("paper"))) {
+		Handle<Value> paper = opts->Get(H("paper"));
+		gchar* unit;
+		gchar* str;
+		Local<Object> obj;
+		if (paper->IsString()) {
+			str = getStr(opts, "paper");
+			return gtk_paper_size_new(str);
+		} else if (paper->IsObject()) {
+			obj = paper->ToObject();
+			unit = getStr(obj, "unit");
+			return gtk_paper_size_new_custom(
+				"custom",
+				"custom",
+				NanUInt32OptionValue(obj, H("width"), 0),
+				NanUInt32OptionValue(obj, H("height"), 0),
+				getUnit(unit)
+			);
+		}
+	}
+		
+	
+	return gtk_paper_size_new(gtk_paper_size_get_default());
+}
+
 NAN_METHOD(WebView::Print) {
 	NanScope();
 	WebView* self = ObjectWrap::Unwrap<WebView>(args.This());
@@ -650,9 +680,7 @@ NAN_METHOD(WebView::Print) {
 	WebKitPrintOperation* op = webkit_print_operation_new(self->view);
 
 	GtkPageSetup* setup = gtk_page_setup_new();
-	const gchar* paper = getStr(opts, "paper");
-	if (paper == NULL) paper = gtk_paper_size_get_default();
-	GtkPaperSize* paperSize = gtk_paper_size_new(paper);
+	GtkPaperSize* paperSize = getPaperSize(opts);
 	gtk_page_setup_set_paper_size_and_default_margins(setup, paperSize);
 	if (NanBooleanOptionValue(opts, H("fullpage"), false)) {
 		gtk_page_setup_set_right_margin(setup, 0, GTK_UNIT_POINTS);
